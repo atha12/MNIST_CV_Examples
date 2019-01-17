@@ -75,10 +75,12 @@ def standardize(x):
 model = Sequential()
 model.add(Lambda(standardize,input_shape=(28,28,1)))
 model.add(Flatten())
+model.add(Dense(512,activation="relu"))
+model.add(Dense(512,activation="relu"))
 model.add(Dense(10,activation='softmax'))
 
 from keras.optimizers import RMSprop
-model.compile(optimizer=RMSprop(lr=0.01),
+model.compile(optimizer=Adam(lr=0.01),
              loss='categorical_crossentropy',
              metrics=['accuracy'])
 
@@ -109,5 +111,5 @@ history=model.fit_generator(generator=batches,steps_per_epoch=batches.n,epochs=2
 predictions=model.predict_classes(X_test,verbose=0)
 submissions=pd.DataFrame({"ImageId":list(range(1,len(predictions)+1)),"Label":predictions})
 
-submissions.to_csv("normalnn.csv",index=False,header=True)
+submissions.to_csv("fullynormalnn1.csv",index=False,header=True)
 
